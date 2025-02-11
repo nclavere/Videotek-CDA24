@@ -3,11 +3,11 @@ using ModelVideotek.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var mainConnectionString = builder.Configuration.GetConnectionString("Database") ?? throw new Exception("Connection string is missing");
+builder.Services.AddDbContext<VideosDbContext>(opt =>
+    opt.UseSqlServer(mainConnectionString));
 
 // Add services to the container.
-builder.Services.AddDbContext<VideosDbContext>(opt =>
-    opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Videotek;Trusted_Connection=True;"));
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
