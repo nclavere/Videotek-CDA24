@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
-using ModelVideotek.Dtos;
 using ModelVideotek.Entities;
 
+/// <summary>
+/// Ce controleur permet de créer, modifier et supprimer des DVD
+/// Donc on a supprimé les méthodes GET
+/// Et on retourne la route GetVideo du controleur Videos après la création
+/// </summary>
 namespace VideotekAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -57,7 +61,8 @@ namespace VideotekAPI.Controllers
             _context.DVDs.Add(dVD);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDVD", new { id = dVD.Id }, dVD);
+            // Après la création, on renvoie le VideoDto de la méthode GetVideo du controller Videos
+            return CreatedAtAction("GetVideo", "Videos", new { id = dVD.Id }, dVD);
         }
 
         // DELETE: api/DVDs/5

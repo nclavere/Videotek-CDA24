@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
 using ModelVideotek.Dtos;
-using ModelVideotek.Entities;
 
+/// <summary>
+/// Ce controleur permet de voir le catalogue de videos quel que soit leur type
+/// Donc on ne garde que les méthodes GET
+/// Et on renvoie un VideoDto qui contient le type de la video
+/// </summary>
 namespace VideotekAPI.Controllers
 {
     [Route("api/[controller]")]
