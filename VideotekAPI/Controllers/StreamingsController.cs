@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
 using ModelVideotek.Dtos;
 using ModelVideotek.Entities;
+using ModelVideotek.Extensions;
 
 /// <summary>
 /// Ce controleur permet de créer, modifier et supprimer des Streaming
@@ -68,8 +69,7 @@ namespace VideotekAPI.Controllers
 
             // Après la création, on renvoie le VideoDto de la méthode GetVideo du controller Videos
             return CreatedAtAction("GetVideo", "Videos", 
-                new { id = streaming.Id }, 
-                new VideoDto { Id=streaming.Id, Titre = streaming.Titre });
+                new { id = streaming.Id }, streaming.ToDto());
         }
 
         // DELETE: api/Streamings/5

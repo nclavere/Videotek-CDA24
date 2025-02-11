@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
 using ModelVideotek.Dtos;
 using ModelVideotek.Entities;
+using ModelVideotek.Extensions;
 
 /// <summary>
 /// Ce controleur permet de créer, modifier et supprimer des BluRays
@@ -67,8 +68,7 @@ namespace VideotekAPI.Controllers
 
             // Après la création, on renvoie le VideoDto de la méthode GetVideo du controller Videos
             return CreatedAtAction("GetVideo", "Videos", 
-                new { id = bluRay.Id },
-                new VideoDto { Id = bluRay.Id, Titre = bluRay.Titre });
+                new { id = bluRay.Id }, bluRay.ToDto());
         }
 
         // DELETE: api/BluRays/5

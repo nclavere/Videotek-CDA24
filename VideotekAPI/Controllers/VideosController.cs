@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
 using ModelVideotek.Dtos;
+using ModelVideotek.Extensions;
 
 /// <summary>
 /// Ce controleur permet de voir le catalogue de videos quel que soit leur type
@@ -27,14 +28,7 @@ namespace VideotekAPI.Controllers
         {
             return await _context.Videos
                 .Include(d => d.Realisateurs)
-                .Select(d => new VideoDto
-                {
-                    Id = d.Id,
-                    Titre = d.Titre,
-                    TypeVideo = d.GetType().Name.ToString(),
-                    Realisateurs = d.Realisateurs != null ?
-                        d.Realisateurs.Select(r => string.Join(" ", r.Prenom, r.Nom)).ToList() : null
-                })
+                .Select(d => d.ToDto())
                 .ToListAsync();
         }
 
@@ -45,14 +39,7 @@ namespace VideotekAPI.Controllers
             var video = await _context.Videos
                 .Include(d => d.Realisateurs)
                 .Where(d => d.Id == id)
-                .Select(d => new VideoDto
-                {
-                    Id = d.Id,
-                    Titre = d.Titre,
-                    TypeVideo = d.GetType().Name.ToString(),
-                    Realisateurs = d.Realisateurs != null ?
-                        d.Realisateurs.Select(r => string.Join(" ", r.Prenom, r.Nom)).ToList() : null
-                })
+                .Select(d => d.ToDto())
                 .FirstOrDefaultAsync();
 
             if (video == null)
