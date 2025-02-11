@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
+using ModelVideotek.Dtos;
 using ModelVideotek.Entities;
 
 /// <summary>
@@ -34,6 +35,10 @@ namespace VideotekAPI.Controllers
 
             _context.Entry(streaming).State = EntityState.Modified;
 
+            //on gère l'état des realisateurs pour les créer ou les modifier
+            streaming.Realisateurs?.ForEach(r => _context.Entry(r).State = (r.Id == 0 ? EntityState.Added : EntityState.Unchanged));
+
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -62,7 +67,9 @@ namespace VideotekAPI.Controllers
             await _context.SaveChangesAsync();
 
             // Après la création, on renvoie le VideoDto de la méthode GetVideo du controller Videos
-            return CreatedAtAction("GetVideo", "Videos", new { id = streaming.Id }, streaming);
+            return CreatedAtAction("GetVideo", "Videos", 
+                new { id = streaming.Id }, 
+                new VideoDto { Id=streaming.Id, Titre = streaming.Titre });
         }
 
         // DELETE: api/Streamings/5
