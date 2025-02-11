@@ -1,34 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
-using ModelVideotek.Dtos;
 using ModelVideotek.Entities;
 
 namespace VideotekAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DVDsController : ControllerBase
+    public class StreamingsController : ControllerBase
     {
         private readonly VideosDbContext _context;
 
-        public DVDsController(VideosDbContext context)
+        public StreamingsController(VideosDbContext context)
         {
             _context = context;
         }
-        
 
-        // PUT: api/DVDs/5
+
+        // PUT: api/Streamings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDVD(int id, DVD dVD)
+        public async Task<IActionResult> PutStreaming(int id, Streaming streaming)
         {
-            if (id != dVD.Id)
+            if (id != streaming.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(dVD).State = EntityState.Modified;
+            _context.Entry(streaming).State = EntityState.Modified;
 
             try
             {
@@ -36,7 +40,7 @@ namespace VideotekAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DVDExists(id))
+                if (!StreamingExists(id))
                 {
                     return NotFound();
                 }
@@ -49,36 +53,36 @@ namespace VideotekAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/DVDs
+        // POST: api/Streamings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DVD>> PostDVD(DVD dVD)
+        public async Task<ActionResult<Streaming>> PostStreaming(Streaming streaming)
         {
-            _context.DVDs.Add(dVD);
+            _context.Streamings.Add(streaming);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDVD", new { id = dVD.Id }, dVD);
+            return CreatedAtAction("GetStreaming", new { id = streaming.Id }, streaming);
         }
 
-        // DELETE: api/DVDs/5
+        // DELETE: api/Streamings/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDVD(int id)
+        public async Task<IActionResult> DeleteStreaming(int id)
         {
-            var dVD = await _context.DVDs.FindAsync(id);
-            if (dVD == null)
+            var streaming = await _context.Streamings.FindAsync(id);
+            if (streaming == null)
             {
                 return NotFound();
             }
 
-            _context.DVDs.Remove(dVD);
+            _context.Streamings.Remove(streaming);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DVDExists(int id)
+        private bool StreamingExists(int id)
         {
-            return _context.DVDs.Any(e => e.Id == id);
+            return _context.Streamings.Any(e => e.Id == id);
         }
     }
 }

@@ -1,34 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModelVideotek.Contexts;
-using ModelVideotek.Dtos;
 using ModelVideotek.Entities;
 
 namespace VideotekAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DVDsController : ControllerBase
+    public class BluRaysController : ControllerBase
     {
         private readonly VideosDbContext _context;
 
-        public DVDsController(VideosDbContext context)
+        public BluRaysController(VideosDbContext context)
         {
             _context = context;
         }
-        
 
-        // PUT: api/DVDs/5
+        // PUT: api/BluRays/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDVD(int id, DVD dVD)
+        public async Task<IActionResult> PutBluRay(int id, BluRay bluRay)
         {
-            if (id != dVD.Id)
+            if (id != bluRay.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(dVD).State = EntityState.Modified;
+            _context.Entry(bluRay).State = EntityState.Modified;
 
             try
             {
@@ -36,7 +39,7 @@ namespace VideotekAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DVDExists(id))
+                if (!BluRayExists(id))
                 {
                     return NotFound();
                 }
@@ -49,36 +52,36 @@ namespace VideotekAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/DVDs
+        // POST: api/BluRays
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DVD>> PostDVD(DVD dVD)
+        public async Task<ActionResult<BluRay>> PostBluRay(BluRay bluRay)
         {
-            _context.DVDs.Add(dVD);
+            _context.BluRays.Add(bluRay);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDVD", new { id = dVD.Id }, dVD);
+            return CreatedAtAction("GetBluRay", new { id = bluRay.Id }, bluRay);
         }
 
-        // DELETE: api/DVDs/5
+        // DELETE: api/BluRays/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDVD(int id)
+        public async Task<IActionResult> DeleteBluRay(int id)
         {
-            var dVD = await _context.DVDs.FindAsync(id);
-            if (dVD == null)
+            var bluRay = await _context.BluRays.FindAsync(id);
+            if (bluRay == null)
             {
                 return NotFound();
             }
 
-            _context.DVDs.Remove(dVD);
+            _context.BluRays.Remove(bluRay);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DVDExists(int id)
+        private bool BluRayExists(int id)
         {
-            return _context.DVDs.Any(e => e.Id == id);
+            return _context.BluRays.Any(e => e.Id == id);
         }
     }
 }
