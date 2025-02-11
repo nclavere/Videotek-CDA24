@@ -1,0 +1,3 @@
+# Videotek-CDA24
+
+Projet fil rouge du cours C# pour les CDA 24 du CESI Pau ...
